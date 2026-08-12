@@ -60,7 +60,7 @@ export default function HeroCarousel() {
       <CarouselContent>
         {slides.map((slide, index) => (
           <CarouselItem key={index}>
-            <div className="relative h-[220px] md:h-[420px] overflow-hidden rounded-3xl">
+            <div className="relative h-[170px] md:h-[420px] overflow-hidden rounded-3xl">
               <img
                 src={slide.image}
                 alt={slide.title}
@@ -71,7 +71,7 @@ export default function HeroCarousel() {
 
               <div className="absolute inset-0 flex items-center">
                 <div className="max-w-xl px-6 md:px-12 text-white">
-                  <h1 className="text-3xl md:text-6xl font-bold leading-tight">
+                  <h1 className="text-2xl md:text-6xl font-bold leading-tight">
                     {slide.title}
                   </h1>
 
@@ -79,12 +79,12 @@ export default function HeroCarousel() {
                     {slide.description}
                   </p>
 
-                  <div className="flex gap-4 mt-8">
+                  <div className="flex gap-4 mt-4 md:mt-8">
                     <button className="px-6 py-3 rounded-xl bg-green-600 hover:bg-green-700 transition">
                       এখনই শপ করুন
                     </button>
 
-                    <button className="px-6 py-3 rounded-xl bg-white text-black hover:bg-gray-100 transition">
+                    <button className="hidden px-6 py-3 rounded-xl bg-white text-black hover:bg-gray-100 transition">
                       দোকান যোগ করুন
                     </button>
                   </div>

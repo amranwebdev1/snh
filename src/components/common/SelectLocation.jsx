@@ -20,14 +20,14 @@ const items = [
 export function SelectLocation() {
   return (
     <Select items={items}>
-      <SelectTrigger className="w-full max-w-48">
+      <SelectTrigger>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Fruits</SelectLabel>
           {items.map((item) => (
-            <SelectItem key={item.value} value={item.value}>
+            <SelectItem key={item.value} value={item.value} className="text-xs lg:text-md">
               {item.label}
             </SelectItem>
           ))}
