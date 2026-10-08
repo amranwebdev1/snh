@@ -1,25 +1,42 @@
-import { SearchIcon } from "lucide-react"
+"use client";
 
-import {
-  Field,
-  FieldDescription,
-  FieldLabel,
-} from "@/components/ui/field"
+import { SearchIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "@/components/ui/input-group"
+} from "@/components/ui/input-group";
 
 export function Search() {
+  const router = useRouter();
+
+  const handleSearchClick = () => {
+    router.push("/search");
+  };
+
   return (
-    <Field className="max-w-sm">
+    <div className="w-full max-w-sm">
       <InputGroup>
-        <InputGroupInput id="inline-start-input" placeholder="Search..." />
-        <InputGroupAddon align="inline-start">
+        <InputGroupInput
+          type="search"
+          placeholder="পণ্য, দোকান বা ক্যাটাগরি খুঁজুন..."
+          autoComplete="off"
+          readOnly
+          onFocus={handleSearchClick}
+          onClick={handleSearchClick}
+          aria-label="Search products and shops"
+        />
+
+        <InputGroupAddon
+          align="inline-start"
+          className="cursor-pointer"
+          onClick={handleSearchClick}
+        >
           <SearchIcon className="text-muted-foreground" />
         </InputGroupAddon>
       </InputGroup>
-    </Field>
-  )
+    </div>
+  );
 }

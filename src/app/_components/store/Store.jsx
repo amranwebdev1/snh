@@ -1,40 +1,73 @@
-import React from 'react'
-import { Card, CardContent } from "@/components/ui/card"
-import {Star,MapPin,Bookmark} from "lucide-react"
-function Store() {
+"use client"
+import React, { useRef } from 'react'
+
+import {useRouter} from "next/navigation"
+import StoreCard from "@/components/common/SmartStoreCard"
+import { ChevronLeft, ChevronRight } from "lucide-react" // আইকন ইমপোর্ট করুন
+import SeeAllBtn from "@/components/common/SeeAllBtn"
+
+
+function Store({popularShops}) {
+  const router = useRouter();
+  const scrollRef = useRef(null);
+
+  // স্ক্রল করার ফাংশন
+  const scroll = (offset) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: offset,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
-    <div className='py-2'>
+    <div className='py-2 relative group'>
         <div className='py-3 flex items-center justify-between'>
-            <h1 className='text-xl font-bold'>All Store</h1>
-            <p className='text-blue-500 underline cursor-pointer text-xs'>View all</p>
+            <h1 className='text-sm font-bold text-slate-900 sm:text-lg'>Store</h1>
+            {/* See All */}
+          <SeeAllBtn href="/shops" />
         </div>
-        <div className='flex gap-3 items-center grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5'>
-            <Card className="p-0 relative">
-                <CardContent className="p-0">
-                    <img 
-                    alt="image" 
-                    src="https://picsum.photos/id/1043/1600/420" className="w-full h-22 object-cover" />
-                    <p className="absolute top-1 left-1 text-[10px] font-bold py-1 px-2 rounded-lg bg-green-600 text-white">খুলা আছে</p>
-                    <div className="absolute top-1 right-1.5 p-1 rounded-full bg-black/20 backdrop-blur-2xl cursor-pointer">
-                      <Bookmark className="text-white" />
-                    </div>
-                    <div className="p-2">
-                      <p className="text-md font-bold">Green corner</p>
-                      <div className='flex flex-wrap items-center gap-x-2'>
-                        <p className="flex items-center text-[10px] font-bold">
-                          <Star fill="yellow" className="w-3 h-3" />
-                          4.5
-                        </p>
-                        <p className="flex items-center text-[10px] font-bold">
-                          <MapPin className="w-3 h-3" />
-                          0.4 km
-                        </p>
-                      <p className="text-xs font-bold">mudi mal</p>  
-                      </div>
-                    </div>
-                </CardContent>
-            </Card>
+
+        {/* বাম দিকের বাটন (শুধুমাত্র ডেস্কটপে দেখাবে) */}
+        <button 
+          onClick={() => scroll(-300)} 
+          className='hidden md:flex absolute left-0 top-[60%] z-10 bg-white p-2 rounded-full shadow-lg border hover:bg-gray-100 transition-all'>
+          <ChevronLeft size={20} />
+        </button>
+
+        {/* মেইন স্ক্রলেবল এরিয়া */}
+        <div 
+          ref={scrollRef}
+          className='w-full flex gap-3 items-center overflow-x-auto pb-4 scrollbar-hide snap-x'
+        >
+          {popularShops.length > 0 ? popularShops?.map((shop)=>(
+          <div key={shop?.id}  className="w-[calc(50%-6px)] md:w-[220px] shrink-0 snap-start">
+            <StoreCard
+                shop={shop}
+                viewMode={"grid"}
+                showRating={false}
+                showBookmark={false}
+                showOpenStatus={false}
+                onClick={() =>
+  router.push(
+    `/shops/${shop?.profiles?.username}/${shop?.slug}`
+  )
+}
+              />
+          </div>
+          )):(
+          <div>nai</div>
+          )}
+            
         </div>
+
+        {/* ডান দিকের বাটন (শুধুমাত্র ডেস্কটপে দেখাবে) */}
+        <button 
+          onClick={() => scroll(300)} 
+          className='hidden md:flex absolute right-0 top-[60%] z-10 bg-white p-2 rounded-full shadow-lg border hover:bg-gray-100 transition-all'>
+          <ChevronRight size={20} />
+        </button>
     </div>
   )
 }
